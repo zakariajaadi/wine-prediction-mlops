@@ -1,0 +1,25 @@
+data:
+    raw_data_path: data/raw/data.csv
+    train_data_path: data/processed/train.csv
+    test_data_path: data/processed/test.csv
+    target_name: quality
+    test_size: 0.2
+    random_state: 42
+mlflow:
+    tracking_uri: ${oc.env:MLFLOW_TRACKING_URI}
+    experiment_name: wine_quality_dev
+    registered_model_name: wine_quality_dev
+    model_uri: models:/wine_quality_dev@champion
+
+database:
+
+    monitoring_db_name: monitoring_dev
+    mlflow_db_name: ${oc.env:MLFLOW_DB_NAME}
+    host: ${oc.env:DB_HOST}
+    user: ${oc.env:DB_USER}
+    password: ${oc.env:DB_PASSWORD}
+    port: ${oc.env:DB_PORT}
+
+logging:
+    level: INFO
+

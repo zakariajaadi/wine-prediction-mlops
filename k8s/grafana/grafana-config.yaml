@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-datasources
+  labels:
+    app: grafana
+data:
+  datasources.yaml: |
+    apiVersion: 1
+    datasources:
+      - name: monitoring_postgresSQL
+        type: postgres
+        access: proxy
+        url: ${DB_HOST}:${DB_PORT}
+        database: ${MONITORING_DB_NAME}
+        user: ${DB_USER}
+        secureJsonData:
+          password: ${DB_PASSWORD}
+        jsonData:
+          sslmode: 'disable'

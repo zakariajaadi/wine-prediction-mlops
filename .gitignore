@@ -1,0 +1,33 @@
+# --- General Python ---
+__pycache__/
+.venv/
+poetry.lock
+
+# Exclude all log files
+*.log
+
+# Ignore env file
+.env
+
+# --- MLflow ---
+mlruns/
+
+# --- Jupyter ---
+
+.ipynb_checkpoints/
+
+# --- Pycharm ---
+
+.idea/
+
+# Docker
+
+.dockerignore
+
+
+
+# --- OS-specific ---
+.DS_Store
+Thumbs.db
+.cache/
+.local/

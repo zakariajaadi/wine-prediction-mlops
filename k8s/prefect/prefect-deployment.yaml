@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prefect
+  labels:
+    app: prefect
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prefect
+  template:
+    metadata:
+      name: prefect
+      labels:
+        app: prefect
+    spec:
+      containers:
+        - name: prefect
+          image: zakariajaadi/k8s-getting-started:0.0.16
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 4200
+              protocol: TCP
+          command: [ "prefect", "server", "start" ]
+          args: [ "--host", "0.0.0.0", "--port", "4200" ]
+          env:
+            - name: PREFECT_API_URL
+              value: "http://localhost:30420/api"
+            - name: PREFECT_SERVER_DATABASE_CONNECTION_URL
+              valueFrom:
+                secretKeyRef:
+                  name: secret
+                  key: PREFECT_DB_CONNECTION_URL
+      restartPolicy: Always
+      

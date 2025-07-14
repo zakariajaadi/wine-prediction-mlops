@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mlflow
+  labels:
+    app: mlflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mlflow
+  template:
+    metadata:
+      name: mlflow
+      labels:
+        app: mlflow
+    spec:
+      containers:
+        - name: mlflow
+          image: zakariajaadi/k8s-getting-started:0.0.16
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+              protocol: TCP
+          command: ["mlflow", "server"]
+          args:
+            - "--backend-store-uri=postgresql://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(MLFLOW_DB_NAME)"
+            - "--default-artifact-root=$(MLFLOW_ARTIFACT_ROOT)"
+            - "--host=0.0.0.0"
+            - "--port=5000"
+          env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: secret
+                  key: POSTGRES_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: secret
+                  key: POSTGRES_PASSWORD
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: secret
+                  key: MINIO_ROOT_USER
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: secret
+                  key: MINIO_ROOT_PASSWORD
+            - name: MLFLOW_S3_ENDPOINT_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: MLFLOW_S3_ENDPOINT_URL
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: DB_PORT
+            - name: MLFLOW_DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: MLFLOW_DB_NAME
+            - name: MLFLOW_ARTIFACT_ROOT
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: MLFLOW_ARTIFACT_ROOT
+      restartPolicy: Always
+
+      

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prefect-worker
+  labels:
+    app: prefect-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prefect-worker
+  template:
+    metadata:
+      labels:
+        app: prefect-worker
+    spec:
+      containers:
+        - name: prefect-worker
+          image: zakariajaadi/k8s-getting-started:0.0.16
+          command: ["prefect", "worker", "start", "--pool", "my_k8s_pool", "--type", "kubernetes"]
+          env:
+            - name: PREFECT_API_URL
+              value: "http://prefect:4200/api"
+            # Add other env vars if needed, e.g. DB credentials
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "500m"
+              memory: "1Gi"

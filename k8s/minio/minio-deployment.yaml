@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minio
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      containers:
+      - name: minio
+        image: minio/minio:latest
+        ports:
+          - containerPort: 9000  # API
+          - containerPort: 9001  # Console Web
+        args:
+          - server
+          - /data
+          - --console-address
+          - ":9001"
+        env:
+        - name: MINIO_ROOT_USER
+          value: "minioadmin"  # Identifiant admin
+        - name: MINIO_ROOT_PASSWORD
+          value: "minioadmin"  # Mot de passe admin
+        volumeMounts:
+        - mountPath: /data
+          name: storage
+      volumes:
+      - name: storage
+        persistentVolumeClaim:
+          claimName: minio-pvc

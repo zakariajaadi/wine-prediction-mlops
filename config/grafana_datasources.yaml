@@ -1,0 +1,17 @@
+# This is a configuration file for the data sources in Grafana.
+# It sets up a "monitoring_postgresSQL" connection for "monitoring" DB.
+# Ensure that the environment variables are correctly set.
+
+# config file version
+apiVersion: 1
+datasources:
+  - name: monitoring_postgresSQL
+    type: postgres
+    access: proxy
+    url: ${DB_HOST}:${DB_PORT}
+    database: ${MONITORING_DB_NAME}
+    user: ${DB_USER}
+    secureJsonData:
+      password: ${DB_PASSWORD}
+    jsonData:
+      sslmode: 'disable'

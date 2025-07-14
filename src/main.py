@@ -25,7 +25,10 @@ def ml_workflow():
     config = read_config()
 
     # Prepare databases (for monitoring, mlflow ...)
-    db_names_list = [config.database.monitoring_db_name, config.database.mlflow_db_name]
+    db_names_list = [config.database.monitoring_db_name,
+                     config.database.mlflow_db_name,
+                     conf.database.prefect_db_name]
+
     prepare_pipeline_databases(config, db_names_list)
 
     # Data extraction
@@ -63,7 +66,9 @@ def monitoring_workflow():
 
     # Ensure pipeline databases are available (for monitoring, mlflow ...)
     db_names_list = [conf.database.monitoring_db_name,
-                     conf.database.mlflow_db_name]
+                     conf.database.mlflow_db_name,
+                     conf.database.prefect_db_name]
+
     prepare_pipeline_databases(conf, db_names_list)
 
     # Set mlflow tracking uri

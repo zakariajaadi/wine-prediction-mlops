@@ -1,24 +1,32 @@
 data:
-    raw_data_path: data/raw/data.csv
-    train_data_path: data/processed/train.csv
-    test_data_path: data/processed/test.csv
+    bucket: dev_ml_data
+    raw_data_key: wine_quality_data/raw/data.csv
+    train_data_key: wine_quality_data/processed/train.csv
+    test_data_key: wine_quality_data/processed/test.csv
     target_name: quality
     test_size: 0.2
     random_state: 42
+
+minio:
+    endpoint_url: http://minio:9000
+    access_key: ${oc.env:AWS_ACCESS_KEY_ID}
+    secret_key: ${oc.env:AWS_SECRET_ACCESS_KEY}
+
 mlflow:
     tracking_uri: ${oc.env:MLFLOW_TRACKING_URI}
     experiment_name: wine_quality_dev
     registered_model_name: wine_quality_dev
     model_uri: models:/wine_quality_dev@champion
+    artifact_root: s3://mlflow-artifacts/
 
 database:
-
-    monitoring_db_name: monitoring_dev
-    mlflow_db_name: ${oc.env:MLFLOW_DB_NAME}
     host: ${oc.env:DB_HOST}
     user: ${oc.env:DB_USER}
     password: ${oc.env:DB_PASSWORD}
     port: ${oc.env:DB_PORT}
+    monitoring_db_name: monitoring
+    mlflow_db_name: ${oc.env:MLFLOW_DB_NAME}
+    prefect_db_name: ${oc.env:PREFECT_DB_NAME}
 
 logging:
     level: INFO

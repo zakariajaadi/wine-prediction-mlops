@@ -1,6 +1,7 @@
 import datetime
 import logging
 from typing import List
+import io
 
 import mlflow
 import numpy as np
@@ -11,6 +12,8 @@ from pydantic import BaseModel
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from sqlalchemy import create_engine
 from sqlalchemy.exc import SQLAlchemyError
+import boto3
+
 
 from config import read_config
 
@@ -28,6 +31,68 @@ def evaluation_metrics(actual,pred):
     mae = mean_absolute_error(actual, pred)
     r2 = r2_score(actual, pred)
     return rmse, mae, r2
+
+#------------- Minio utils -------------#
+
+def upload_df_to_minio(df, bucket: str, destination_key: str):
+    """
+    Uploads a pandas DataFrame as a CSV file to MinIO/S3.
+    """
+    # Fetch config
+    conf = read_config()
+    minio_endpoint = conf.minio.endpoint_url
+    access_key = conf.minio.access_key
+    secret_key = conf.minio.secret_key
+
+    # Convert DataFrame to CSV bytes
+    csv_buffer = io.StringIO()
+    df.to_csv(csv_buffer, index=False)
+    csv_bytes = csv_buffer.getvalue().encode()
+
+    # Create S3 client for MinIO
+    s3 = boto3.client(
+        "s3",
+        endpoint_url=minio_endpoint,
+        aws_access_key_id=access_key,
+        aws_secret_access_key=secret_key
+    )
+
+    try:
+        s3.put_object(Bucket=bucket, Key=destination_key, Body=csv_bytes, ContentType='text/csv')
+        logger.info(f"Uploaded DataFrame to s3://{bucket}/{destination_key}")
+    except Exception as e:
+        logger.exception(f"Failed to upload DataFrame to MinIO: {e}")
+        raise
+
+def download_df_from_minio(bucket: str, object_key: str) -> pd.DataFrame:
+    """
+    Downloads a CSV file from MinIO/S3 and returns it as a pandas DataFrame.
+    """
+    # Fetch config
+    conf = read_config()
+    minio_endpoint = conf.minio.endpoint_url
+    access_key = conf.minio.access_key
+    secret_key = conf.minio.secret_key
+
+    # Create S3 client for MinIO
+    s3 = boto3.client(
+        "s3",
+        endpoint_url=minio_endpoint,
+        aws_access_key_id=access_key,
+        aws_secret_access_key=secret_key
+    )
+
+    try:
+        response = s3.get_object(Bucket=bucket, Key=object_key)
+        content = response['Body'].read().decode('utf-8')
+        df = pd.read_csv(io.StringIO(content))
+        logger.info(f"Downloaded DataFrame from s3://{bucket}/{object_key}")
+        return df
+    except Exception as e:
+        logger.exception(f"Failed to download CSV from MinIO: {e}")
+        raise
+
+
 
 #------------- Monitoring utils -------------#
 

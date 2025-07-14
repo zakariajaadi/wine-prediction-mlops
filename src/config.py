@@ -12,19 +12,13 @@ if os.getenv("ENV_MODE", "dev") == "dev":
 # Data classes to define yaml Conf files
 @dataclass
 class DataConfig:
-    raw_data_path: Path
-    train_data_path: Path
-    test_data_path: Path
+    bucket: str
+    raw_data_key: str
+    train_data_key: str
+    test_data_key: str
     target_name: str
     test_size: float
     random_state: int
-
-    def __post_init__(self):
-        """Resolve all paths relative to base_dir."""
-        self.base_dir = Path(__file__).resolve().parents[1]
-        self.raw_data_path = self.base_dir / Path(self.raw_data_path)
-        self.train_data_path = self.base_dir / Path(self.train_data_path)
-        self.test_data_path = self.base_dir / Path(self.test_data_path)
 
 
 @dataclass
@@ -35,7 +29,9 @@ class DatabaseConfig:
     password: str
     dialect: str = "postgresql"
     monitoring_db_name: str = "monitoring"
-    mlflow_db_name: str = "mlflow"
+    mlflow_db_name: str = "mlflowdb"
+    prefect_db_name: str = "prefectdb"
+
 
     def construct_db_uri(self, db_name: str):
         """
@@ -55,6 +51,14 @@ class MlflowConfig:
     experiment_name: str
     registered_model_name: str
     model_uri: str
+    artifact_root: str
+
+
+@dataclass
+class MinioConfig:
+    endpoint_url: str
+    access_key: str
+    secret_key: str
 
 
 @dataclass
@@ -68,6 +72,7 @@ class AppConfig:
     logging: LoggingConfig
     mlflow: MlflowConfig
     data: DataConfig
+    minio: MinioConfig
 
 
 def read_config():
@@ -86,6 +91,7 @@ def read_config():
         database=DatabaseConfig(**cfg.database),
         logging=LoggingConfig(**cfg.logging),
         mlflow=MlflowConfig(**cfg.mlflow),
+        minio=MinioConfig(**cfg.minio),
         data=DataConfig(**cfg.data)
     )
     return app_config

@@ -1,11 +1,9 @@
-import os
-
-
 import pandas as pd
 from prefect import task
 from prefect.logging import get_run_logger
 
 from config import AppConfig, read_config
+from utils import upload_df_to_minio
 
 
 @task(name="data extraction",retries=3, retry_delay_seconds=5)
@@ -15,7 +13,8 @@ def extract_data(conf:AppConfig):
     logger = get_run_logger()
 
     # Fetch config
-    raw_data_path=conf.data.raw_data_path
+    data_bucket=conf.data.bucket
+    raw_data_key=conf.data.raw_data_key
 
     # Data url
     csv_url = "https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv"
@@ -24,11 +23,11 @@ def extract_data(conf:AppConfig):
         # Extract data
         raw_data_df=pd.read_csv(csv_url,sep=";")
 
-        # Save data to csv
-        os.makedirs(os.path.dirname(raw_data_path), exist_ok=True)
-        raw_data_df.to_csv(raw_data_path, sep=",", index=False)
+        # Save data to MinIO
+        upload_df_to_minio(raw_data_df,data_bucket,raw_data_key)
 
-        logger.info(f"Data extraction completed. Saving extracted data to {raw_data_path}")
+
+        logger.info(f"Data extraction completed and saved to MinIO at s3://{data_bucket}/{raw_data_key}")
 
         return raw_data_df
 

@@ -31,7 +31,7 @@ deploy-all-flows:
 
 
 
-.PHONY: deploy-postgres deploy-mlflow deploy-prefect deploy-adminer deploy-fastapi deploy-k8s
+.PHONY: deploy-app-config deploy-postgres deploy-mlflow deploy-prefect deploy-adminer deploy-grafana deploy-minio deploy-model-api deploy-k8s
 
 
 

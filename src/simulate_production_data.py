@@ -52,7 +52,6 @@ def simulate_production(conf:AppConfig,reference_df,simulation_df,batch_size):
         time.sleep(5)
 
 
-
 def main(batch_size:int =30):
 
         # Fetch conf

@@ -1,5 +1,5 @@
 data:
-    bucket: dev_ml_data
+    bucket: dev-pipelines-data
     raw_data_key: wine_quality_data/raw/data.csv
     train_data_key: wine_quality_data/processed/train.csv
     test_data_key: wine_quality_data/processed/test.csv
@@ -8,7 +8,7 @@ data:
     random_state: 42
 
 minio:
-    endpoint_url: http://minio:9000
+    endpoint_url: ${oc.env:MINIO_ENDPOINT}
     access_key: ${oc.env:AWS_ACCESS_KEY_ID}
     secret_key: ${oc.env:AWS_SECRET_ACCESS_KEY}
 
@@ -24,7 +24,7 @@ database:
     user: ${oc.env:DB_USER}
     password: ${oc.env:DB_PASSWORD}
     port: ${oc.env:DB_PORT}
-    monitoring_db_name: monitoring
+    monitoring_db_name: ${oc.env:MONITORING_DB_NAME}
     mlflow_db_name: ${oc.env:MLFLOW_DB_NAME}
     prefect_db_name: ${oc.env:PREFECT_DB_NAME}
 

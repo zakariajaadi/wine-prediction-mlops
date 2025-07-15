@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: mlflow
-          image: zakariajaadi/k8s-getting-started:0.0.16
+          image: zakariajaadi/k8s-getting-started:1.0.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5000

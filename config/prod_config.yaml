@@ -6,10 +6,12 @@ data:
     target_name: quality
     test_size: 0.2
     random_state: 42
+
 minio:
     endpoint_url: ${oc.env:MINIO_ENDPOINT}
     access_key: ${oc.env:AWS_ACCESS_KEY_ID}
     secret_key: ${oc.env:AWS_SECRET_ACCESS_KEY}
+
 mlflow:
     tracking_uri: ${oc.env:MLFLOW_TRACKING_URI}
     experiment_name: wine_quality_prod
@@ -22,7 +24,7 @@ database:
     user: ${oc.env:DB_USER}
     password: ${oc.env:DB_PASSWORD}
     port: ${oc.env:DB_PORT}
-    monitoring_db_name: monitoring
+    monitoring_db_name: ${oc.env:MONITORING_DB_NAME}
     mlflow_db_name: ${oc.env:MLFLOW_DB_NAME}
     prefect_db_name: ${oc.env:PREFECT_DB_NAME}
 

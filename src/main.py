@@ -14,6 +14,7 @@ from db import prepare_pipeline_databases
 from model_deploy import get_best_run_model_version, promote_model_version_to_champion
 from model_monitoring import calculate_drift_metrics, save_drift_metrics_to_db, update_drift_processed_flags
 from model_train import set_mlflow_environment, train_hyperparameters_tuning
+from utils import download_df_from_minio
 
 # ----- App Flows ---- #
 @flow(name="wine_quality_ml_pipeline")
@@ -58,7 +59,8 @@ def monitoring_workflow():
 
     # Fetch config
     conf = read_config()
-    train_data_path, test_data_path= conf.data.train_data_path, conf.data.test_data_path
+    data_bucket= conf.data.bucket
+    train_data_key, test_data_key= conf.data.train_data_key, conf.data.test_data_key
     target_name= conf.data.target_name
     model_name= conf.mlflow.registered_model_name
     tracking_uri= conf.mlflow.tracking_uri
@@ -74,10 +76,11 @@ def monitoring_workflow():
     # Set mlflow tracking uri
     mlflow.set_tracking_uri(tracking_uri)
 
-    # Load reference data
-    reference_features_df = pd.read_csv(train_data_path).drop([target_name], axis=1)
+    # Load reference data (train data only)
+    reference_features_df = download_df_from_minio(data_bucket, train_data_key)
+    reference_features_df = reference_features_df.drop([target_name], axis=1)
 
-    # Load production inference data
+    # Load production inference data from postgres
     table_name = f"inference_{model_name}"
     engine=create_engine(monitoring_db_uri)
     inference_df = pd.read_sql_table(table_name, con=engine)
@@ -117,7 +120,7 @@ if __name__ == "__main__":
        name="wine_quality_ml_pipeline_production",
        cron="0 0 * * 0", #every sunday midnight
        work_pool_name="my_k8s_pool",
-       image="zakariajaadi/k8s-getting-started:0.0.16",
+       image="zakariajaadi/k8s-getting-started:1.0.0",
        job_variables={
            "image_pull_policy": "Always",
            "env": env_vars
@@ -130,7 +133,7 @@ if __name__ == "__main__":
     monitoring_workflow.deploy(
         name="wine_quality_monitoring_production",
         work_pool_name="my_k8s_pool",
-        image="zakariajaadi/k8s-getting-started:0.0.16",
+        image="zakariajaadi/k8s-getting-started:1.0.0",
         job_variables={
             "image_pull_policy": "Always",
             "env": env_vars

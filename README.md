@@ -24,7 +24,7 @@ https://github.com/user-attachments/assets/c9bf8485-51b6-4fe6-8346-04702c296454
 
 * **📊 MLflow**: Used to track training experiments for easy comparison and model selection, and also to help version and manage models to streamline deployment. 
 
-* **📦 MinIO**: Used as a self-hosted, S3-compatible object storage solution to save MLflow artifacts, providing cloud-like storage capabilities.
+* **📦 MinIO**: Used as a self-hosted, S3-compatible object storage solution to save the pipeline's train data and MLflow artifacts, providing cloud-like storage capabilities.
 
 * **⛓️ Prefect**: Used to orchestrate the ML pipeline by managing tasks, scheduling, and monitoring. (Two flows were implemented: one for model training and automatic deployment, and another for model monitoring.)
 
@@ -71,28 +71,78 @@ The model is built using **ElasticNet** regression, a linear regression techniqu
    git clone https://github.com/zakariajaadi/WinePredictionMlops.git
    cd WinePredictionMlops
    ```
-2. Build and Push flow image:
+2. Create dotenv file:
 
+   Create a `.env` file at the root of the project and add the following environment variables:
+
+   ```env
+   ENV_MODE=prod
+
+   # ------ Postgres ------- #
+   DB_HOST=postgres
+   DB_PORT=5432
+   DB_USER=postgres
+   DB_PASSWORD=example
+   MONITORING_DB_NAME=monitoring
+
+   # ----- Minio ----- #
+   MINIO_ENDPOINT=http://minio:9000
+   AWS_ACCESS_KEY_ID=minioadmin
+   AWS_SECRET_ACCESS_KEY=minioadmin
+
+   # ------ Mlflow ------- #
+   MODEL_NAME=wine_quality_prod
+   MLFLOW_TRACKING_URI=http://mlflow:5000
+   MLFLOW_S3_ENDPOINT_URL=http://minio:9000
+   MLFLOW_ARTIFACT_ROOT=s3://mlflow-artifacts/
+   MLFLOW_DB_NAME=mlflowdb
+
+   # ------ Prefect ------- #
+   PREFECT_LOGGING_LEVEL=INFO
+   PREFECT_DB_NAME=prefectdb
+   
+3. Build and Push flow image:
    ```bash
    make release TAG=1.0.0 # Builds and pushes a Docker image containing the application code and all required dependencies.
    ```
-3. Deploy kubernetes resources:
+4. Deploy kubernetes resources:
    ```bash
    make deploy-k8s # Applies Kubernetes manifests
    ```
-4. Deploy flows in prefect:
+5. Verify that all Kubernetes pods are running:
+
+   ```bash
+   kubectl get pods
+   ```
+   Make sure all pods are in the Running or Completed state before proceeding.
+
+6. Deploy flows in prefect:
    ```bash
    make deploy-all-flows # Deploys all Prefect flows to the Prefect server
    ```
-5. Run flows in prefect UI:
+7. Run flows in prefect UI:
 
-Access the prefect UI (`http://localhost:30420`), navigate to Deployments, and trigger a flow Run.
+   Access the prefect UI (`http://localhost:30420`), navigate to Deployments, to `wine_quality_ml_pipeline_production` and trigger a flow Run. 
 
-6. Model serving:
+8. Model serving:
    ```bash
    make deploy-model-api # Exposes the champion model via a FastAPI application.
    ```
-7. Access the services:
+   
+9. Check model health:
+
+   Visit the model health endpoint in your browser or with curl:
+
+   ```bash
+   curl http://localhost:30080/health
+   ```
+   You should receive a response like:
+   ```json
+   {"status": "ok"}
+   ```
+
+
+10. Access the services:
 
     * Prefect UI: `http://localhost:30420` 
     * MLflow UI: `http://localhost:30500` 

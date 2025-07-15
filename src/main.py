@@ -28,7 +28,7 @@ def ml_workflow():
     # Prepare databases (for monitoring, mlflow ...)
     db_names_list = [config.database.monitoring_db_name,
                      config.database.mlflow_db_name,
-                     conf.database.prefect_db_name]
+                     config.database.prefect_db_name]
 
     prepare_pipeline_databases(config, db_names_list)
 

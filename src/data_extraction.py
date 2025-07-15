@@ -25,8 +25,6 @@ def extract_data(conf:AppConfig):
 
         # Save data to MinIO
         upload_df_to_minio(raw_data_df,data_bucket,raw_data_key)
-
-
         logger.info(f"Data extraction completed and saved to MinIO at s3://{data_bucket}/{raw_data_key}")
 
         return raw_data_df

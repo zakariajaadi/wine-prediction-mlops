@@ -9,7 +9,7 @@ from sqlalchemy import create_engine, Table, MetaData
 from sqlalchemy.exc import SQLAlchemyError
 
 from config import read_config, AppConfig
-from utils import calculate_feature_drift, calculate_prediction_drift
+from utils import calculate_feature_drift, calculate_prediction_drift, download_df_from_minio
 
 
 @task(name="Calculate Drift Metrics")
@@ -99,15 +99,16 @@ def update_drift_processed_flags(conf, table_name: str):
 def main():
     # Fetch config
     conf = read_config()
-    train_data_path, test_data_path = conf.data.train_data_path, conf.data.test_data_path
+    data_bucket = conf.data.bucket
+    train_data_key, test_data_key = conf.data.train_data_key, conf.data.test_data_keu
     target_name = conf.data.target_name
 
     # Set Tracking Uri
     mlflow.set_tracking_uri(conf.mlflow.tracking_uri)
 
     # Load processed test data
-    reference_df = pd.read_csv(train_data_path).drop([target_name], axis=1)
-    current_df = pd.read_csv(test_data_path).drop([target_name], axis=1)
+    reference_df = download_df_from_minio(data_bucket,train_data_key).drop([target_name], axis=1)
+    current_df = download_df_from_minio(data_bucket,test_data_key).drop([target_name], axis=1)
 
     # Induce synthetic drift
     current_df['volatile_acidity'] = current_df['volatile_acidity'] * 2.5

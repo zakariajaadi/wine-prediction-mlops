@@ -51,7 +51,7 @@ async def predict(data: InputDataModel):
     # Make predictions
     predictions_list = make_prediction_from_model(samples_data_df, model_uri)
 
-    # Save predictions
+    # Save predictions into monitoring db
     save_predictions(samples_data_df, predictions_list)
 
     return {'predictions': predictions_list}

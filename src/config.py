@@ -79,10 +79,11 @@ def read_config():
     base_dir = Path(__file__).resolve().parents[1]
 
     # Environment mode
-    config_path = base_dir / "config" / "dev_config.yaml"
+    #config_path = base_dir / "config" / "dev_config.yaml"
+    # #if os.getenv("ENV_MODE", "dev") == "prod":
+    #        config_path = base_dir / "config" / "prod_config.yaml"
 
-    if os.getenv("ENV_MODE", "dev") == "prod":
-        config_path = base_dir / "config" / "prod_config.yaml"
+    config_path = base_dir / "config" / "prod_config.yaml"
 
     # Load config
     cfg = OmegaConf.load(config_path)
@@ -100,5 +101,5 @@ def read_config():
 if __name__ == "__main__":
     conf = read_config()
     #print(config.mlflow.registered_model_name)
-    print(os.getenv("ENV_MODE", "dev"))
+    print(os.getenv("ENV_MODE", "prod"))
     print(conf.database.host)

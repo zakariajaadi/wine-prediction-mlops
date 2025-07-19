@@ -9,19 +9,14 @@ data:
   ##--POSTGRES--##
   DB_HOST: "postgres"
   DB_PORT: "5432"
+  PREFECT_DB_NAME: "prefectdb"
+  MONITORING_DB_NAME: "monitoring"
+  MLFLOW_DB_NAME: "mlflowdb"
 
   ##--MLFLOW--##
   MODEL_NAME: "wine_quality_prod"
   MODEL_URI : "models:/wine_quality_prod@champion"
-  MLFLOW_DB_NAME: "mlflowdb"
   MLFLOW_TRACKING_URI: "http://mlflow:5000"
   MLFLOW_S3_ENDPOINT_URL: "http://minio:9000"
   MLFLOW_ARTIFACT_ROOT: "s3://mlflow-artifacts/"
-
-
-  ##--PREFECT--##
-  PREFECT_DB_NAME: "prefectdb"
-
-  ##--GRAFANA--#
-  MONITORING_DB_NAME: "monitoring"
 

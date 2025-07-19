@@ -81,17 +81,18 @@ def main(batch_size:int =30):
         simulate_production(conf,reference_df,production_df,batch_size)
 
 if __name__ == "__main__":
-    import os
+    #import os
 
     # ENV_MODE env var controls which model to use for simulation (Dev or Prod version)
-    os.environ["ENV_MODE"] = "prod"
-    os.environ["DB_HOST"] = "localhost"
-    os.environ["DB_PORT"] = "30432"
-    os.environ["MINIO_ENDPOINT"] = "http://localhost:31248"
-    os.environ["MLFLOW_TRACKING_URI"] = "http://localhost:30500"
-    os.environ["MLFLOW_S3_ENDPOINT_URL"] = "http://localhost:31248"
+    #os.environ["ENV_MODE"] = "prod"
+    #os.environ["DB_HOST"] = "localhost"
+    #os.environ["DB_PORT"] = "30432"
+    #os.environ["MINIO_ENDPOINT"] = "http://localhost:31248"
+    #os.environ["MLFLOW_TRACKING_URI"] = "http://localhost:30500"
+    #os.environ["MLFLOW_S3_ENDPOINT_URL"] = "http://localhost:31248"
 
-    main()
+    #main()
+    pass
 
 
 

@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: prefect-worker
-          image: zakariajaadi/k8s-getting-started:1.0.0
+          image: prefecthq/prefect:3.4.7
           command: ["prefect", "worker", "start", "--pool", "my_k8s_pool", "--type", "kubernetes"]
           env:
             - name: PREFECT_API_URL

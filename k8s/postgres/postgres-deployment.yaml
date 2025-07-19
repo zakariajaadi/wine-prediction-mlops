@@ -25,7 +25,7 @@ spec:
 
       containers:
         - name: postgres
-          image: postgres
+          image: postgres:17.4
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5432
@@ -62,4 +62,3 @@ spec:
             timeoutSeconds: 5
             failureThreshold: 3
       restartPolicy: Always
-      

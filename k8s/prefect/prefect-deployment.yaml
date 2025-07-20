@@ -18,7 +18,7 @@ spec:
       containers:
         - name: prefect
           #image: zakariajaadi/k8s-getting-started:1.0.0
-          image: prefecthq/prefect:3.4.7
+          image: prefecthq/prefect:3.4.7-python3.12-kubernetes
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 4200

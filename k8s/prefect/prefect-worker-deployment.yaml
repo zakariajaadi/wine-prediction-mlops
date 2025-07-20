@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: prefect-worker
-          image: prefecthq/prefect:3.4.7
+          image: prefecthq/prefect:3.4.7-python3.12-kubernetes
           command: ["prefect", "worker", "start", "--pool", "my_k8s_pool", "--type", "kubernetes"]
           env:
             - name: PREFECT_API_URL

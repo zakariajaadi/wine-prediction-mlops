@@ -5,7 +5,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from omegaconf import OmegaConf
 
-# Load .env file only in dev
+# Load .env file only in dev mode
 if os.getenv("ENV_MODE", "dev") == "dev":
     load_dotenv()
 
@@ -51,6 +51,7 @@ class MlflowConfig:
     experiment_name: str
     registered_model_name: str
     model_uri: str
+    model_endpoint_url: str
     artifact_root: str
 
 
@@ -80,8 +81,7 @@ def read_config():
 
     # Environment mode
     #config_path = base_dir / "config" / "dev_config.yaml"
-    # #if os.getenv("ENV_MODE", "dev") == "prod":
-    #        config_path = base_dir / "config" / "prod_config.yaml"
+    #if os.getenv("ENV_MODE", "local") == "prod":
 
     config_path = base_dir / "config" / "prod_config.yaml"
 
@@ -100,6 +100,4 @@ def read_config():
 
 if __name__ == "__main__":
     conf = read_config()
-    #print(config.mlflow.registered_model_name)
-    print(os.getenv("ENV_MODE", "prod"))
     print(conf.database.host)

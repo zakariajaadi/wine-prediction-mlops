@@ -17,6 +17,7 @@ mlflow:
     experiment_name: wine_quality_prod
     registered_model_name: wine_quality_prod
     model_uri: models:/wine_quality_prod@champion
+    model_endpoint_url: http://model:8000/predict
     artifact_root: s3://mlflow-artifacts/
 
 database:

@@ -11,7 +11,6 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
 from config import AppConfig, read_config
-from db import prepare_pipeline_databases
 from utils import evaluation_metrics
 
 
@@ -135,9 +134,6 @@ def main():
     conf = read_config()
     train_data_path, test_data_path = conf.data.train_data_path, conf.data.test_data_path
     target_name= conf.data.target_name
-
-    # Prepare databases
-    prepare_pipeline_databases(conf,[conf.database.mlflow_db_name,conf.database.monitoring_db_name])
 
     # Load train test data
     train_df = pd.read_csv(train_data_path)

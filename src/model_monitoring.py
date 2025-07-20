@@ -90,9 +90,9 @@ def update_drift_processed_flags(conf, table_name: str):
                             .values(drift_processed=True))
             result = connection.execute(update_query)
 
-            logger.info(f"Successfully updated 'drift_processed' flag to True for {result.rowcount} rows in '{table_name}' table in {monitoring_db_name}")
+            logger.info(f"Successfully updated 'drift_processed' flag to True for {result.rowcount} rows in '{table_name}' table in database '{monitoring_db_name}'")
         except Exception as e:
-            logger.error(f"Error updating 'drift_processed' flag for {table_name} in database {monitoring_db_name}: {e}")
+            logger.error(f"Error updating 'drift_processed' flag for '{table_name}' in database '{monitoring_db_name}': {e}")
             raise
 
 

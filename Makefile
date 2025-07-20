@@ -19,14 +19,24 @@ deploy-grafana:
 	kubectl apply -f k8s/grafana
 deploy-minio:
 	kubectl apply -f k8s/minio
-deploy-model-api:
-	kubectl apply -f k8s/model
+
 deploy-k8s:
-	kubectl apply -f k8s
+	kubectl apply -f k8s/app
+	kubectl apply -f k8s/postgres
+	kubectl apply -f k8s/mlflow
+	kubectl apply -f k8s/prefect
+	kubectl apply -f k8s/minio
+	kubectl apply -f k8s/grafana
+	kubectl apply -f k8s/adminer
+
+model-serving:
+	kubectl apply -f k8s/model
+
 
 # Deploy all pipelines in prefect server ( important! : app profile docker compose must be up)
 deploy-all-flows:
 	python src/main.py
+
 
 
 

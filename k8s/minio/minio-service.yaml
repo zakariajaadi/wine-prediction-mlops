@@ -8,6 +8,7 @@ spec:
     - name: api
       port: 9000
       targetPort: 9000
+      nodePort: 32000
     - name: web-ui
       port: 9001
       targetPort: 9001

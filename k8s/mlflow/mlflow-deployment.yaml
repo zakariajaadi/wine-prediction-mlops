@@ -17,8 +17,8 @@ spec:
     spec:
       containers:
         - name: mlflow
-          #image: zakariajaadi/k8s-getting-started:1.0.0
-          image: ghcr.io/mlflow/mlflow:3.1.1
+          # custom image (avoid Mlflow official image because it doesn't have psycopg installed)
+          image: zakariajaadi/k8s-getting-started:1.0.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5000

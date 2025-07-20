@@ -24,7 +24,7 @@ def ml_workflow():
     Train and Automatic Deployment Prefect Flow.
     """
     # Fetch config
-    config = read_config()
+    config= read_config()
 
     # Data extraction
     raw_data_df=extract_data(config)

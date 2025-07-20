@@ -76,30 +76,23 @@ The model is built using **ElasticNet** regression, a linear regression techniqu
    Create a `.env` file at the root of the project and add the following environment variables:
 
    ```env
-   ENV_MODE=prod
+    ENV_MODE=prod
 
-   # ------ Postgres ------- #
-   DB_HOST=postgres
-   DB_PORT=5432
-   DB_USER=postgres
-   DB_PASSWORD=example
-   MONITORING_DB_NAME=monitoring
+    # Postgres
+    DB_USER=postgres
+    DB_PASSWORD=example
 
-   # ----- Minio ----- #
-   MINIO_ENDPOINT=http://minio:9000
-   AWS_ACCESS_KEY_ID=minioadmin
-   AWS_SECRET_ACCESS_KEY=minioadmin
+    # Minio
+    AWS_ACCESS_KEY_ID=minioadmin
+    AWS_SECRET_ACCESS_KEY=minioadmin
 
-   # ------ Mlflow ------- #
-   MODEL_NAME=wine_quality_prod
-   MLFLOW_TRACKING_URI=http://mlflow:5000
-   MLFLOW_S3_ENDPOINT_URL=http://minio:9000
-   MLFLOW_ARTIFACT_ROOT=s3://mlflow-artifacts/
-   MLFLOW_DB_NAME=mlflowdb
+    # Mlflow
+    MLFLOW_S3_ENDPOINT_URL=http://minio:9000
 
-   # ------ Prefect ------- #
-   PREFECT_LOGGING_LEVEL=INFO
-   PREFECT_DB_NAME=prefectdb
+    # Prefect
+    #PREFECT_API_URL="http://localhost:30420/api"
+    PREFECT_LOGGING_LEVEL=INFO
+
    
 3. Build and Push flow image:
    ```bash

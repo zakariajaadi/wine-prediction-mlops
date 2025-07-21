@@ -105,7 +105,6 @@ The model is built using **ElasticNet** regression, a linear regression techniqu
    ```
    Once all pods are running (check with `kubectl get pods`), you can access these services:
    
-   You can now access these services :  
       * Prefect UI: `http://localhost:30420` 
       * MLflow UI: `http://localhost:30500` 
       * Minio UI: `http://localhost:32000`

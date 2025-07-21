@@ -21,29 +21,29 @@ https://github.com/user-attachments/assets/c9bf8485-51b6-4fe6-8346-04702c296454
 
 
 ## 📦 Key Tools
-* **🐳☸️ Docker & Kubernetes :** The entire project is containerized using Docker, and Kubernetes is used for managing multi-container deployments and orchestration. This includes services for **MLflow**, **Prefect**, **MinIO**, **PostgreSQL**, and **Grafana**.  
+* **🐳☸️ Docker & Kubernetes :** The entire project is containerized using Docker, and Kubernetes is used for multi-container deployments and orchestration. This includes services for _MLflow_, _Prefect_, _MinIO_, _Postgres_, and _Grafana_.  
 
 * **📊 MLflow**: Used to track training experiments for easy comparison and model selection, and also to help version and manage models to streamline deployment. 
 
-* **📦 MinIO**: Used as a self-hosted, S3-compatible object storage solution to save the pipeline's train data and MLflow artifacts.
+* **📦 MinIO**: Used as a S3-compatible object storage solution to save the pipeline's train data and MLflow artifacts.
 
-* **⛓️ Prefect**: Used to orchestrate the project pipelines by managing tasks, scheduling, and monitoring. 
+* **⛓️ Prefect**: Used to orchestrate the project pipelines.
 
 * **🎯 Hyperopt**: Used for hyperparameters tuning to explore exclusively promising regions.  
 
-* **🧪 Deepchecks**: Used to detect both Features and Prediction drift, ensuring consistent model performance and early identification of potential issues.  
+* **🚀 FastAPI**: Used to serve trained models and handle prediction requests in real-time.
+
+* **🐘 PostgreSQL**: Hosts the backend databases for MLflow, Prefect, and monitoring.
+
+* **🖥️ Adminer**: Adminer provided a light-weight front-end to manage and monitor the PostgreSQL database.
+
+* **🧪 Deepchecks**: Used to calculate both Features and Prediction drift  
 
 * **📈 Grafana**: Used to visualize drift scores and to provide alerts for drift detection, enabling real-time insights into deployed model health.  
 
-* **🚀 FastAPI**: Used to serve trained models and handle prediction requests in real-time.  
-
 * **⚙️ OmegaConf**: Used to manage configurations through structured YAML with runtime parameter injection
 
-* **📦 Poetry**: Used to manage project dependencies and virtual environments, for reproducible and consistent development.  
-
-* **🐘 PostgreSQL**: Hosts the backend databases for MLflow, Prefect, and monitoring.  
-
-* **🖥️ Adminer**: Adminer provided a light-weight front-end to manage and monitor the PostgreSQL database.  
+* **📦 Poetry**: Used to manage Python dependencies and virtual environments, for reproducible and consistent development.  
 
 ## 📊  Dataset
 

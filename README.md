@@ -119,7 +119,7 @@ The model is built using **ElasticNet** regression, a linear regression techniqu
 
    Access the prefect UI (`http://localhost:30420`), navigate to Deployments, to `wine_quality_ml_pipeline_production` and trigger a flow Run. 
 
-## 👨‍🍳 Model Serving
+## 🍽️ Model Serving
 
 1. Serve model:
    ```bash

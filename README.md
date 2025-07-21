@@ -21,7 +21,7 @@ https://github.com/user-attachments/assets/c9bf8485-51b6-4fe6-8346-04702c296454
 
 
 ## 📦 Key Tools
-* **🐳☸️ Docker & Kubernetes :** The entire project is containerized using Docker, and Kubernetes is used for managing multi-container deployments and orchestration. This includes services for **MLflow**, **Prefect**, **PostgreSQL**, and **Grafana**.  
+* **🐳☸️ Docker & Kubernetes :** The entire project is containerized using Docker, and Kubernetes is used for managing multi-container deployments and orchestration. This includes services for **MLflow**, **Prefect**, **MinIO**, **PostgreSQL**, and **Grafana**.  
 
 * **📊 MLflow**: Used to track training experiments for easy comparison and model selection, and also to help version and manage models to streamline deployment. 
 

@@ -103,27 +103,31 @@ The model is built using **ElasticNet** regression, a linear regression techniqu
    ```bash
    make deploy-k8s # Applies Kubernetes manifests
    ```
-5. Verify that all Kubernetes pods are running:
+   Once all pods are running (check with `kubectl get pods`), you can access these services:
+   
+   You can now access these services :  
+      * Prefect UI: `http://localhost:30420` 
+      * MLflow UI: `http://localhost:30500` 
+      * Minio UI: `http://localhost:32000`
+      * Grafana: `http://localhost:30000` 
+      * Adminer: `http://localhost:30081` 
 
-   ```bash
-   kubectl get pods
-   ```
-   Make sure all pods are in the Running or Completed state before proceeding.
-
-6. Deploy flows in prefect:
+5. Deploy flows in prefect:
    ```bash
    make deploy-all-flows # Deploys all Prefect flows to the Prefect server
    ```
-7. Run the Training and Deployment flow in prefect UI:
+6. Run the Training and Deployment flow in prefect UI:
 
    Access the prefect UI (`http://localhost:30420`), navigate to Deployments, to `wine_quality_ml_pipeline_production` and trigger a flow Run. 
 
-8. Model serving:
+## 👨‍🍳 Model Serving
+
+1. Serve model:
    ```bash
    make deploy-model-api # Exposes the champion model via a FastAPI application.
    ```
    
-9. Check model API health:
+2. Check model API health:
 
    Visit the model health endpoint in your browser or with curl:
 
@@ -134,7 +138,7 @@ The model is built using **ElasticNet** regression, a linear regression techniqu
    ```json
    {"status": "ok"}
    ```
-10. Test the model prediction with Postman
+3. Test the model prediction with Postman
 
     1. Open Postman and create a `POST` request to: `http://localhost:30080/predict`
     2. In the request body, paste the sample payload below, and click Send.
@@ -163,16 +167,6 @@ The model is built using **ElasticNet** regression, a linear regression techniqu
                 "predictions": [5.1]
                }
         ```
-
-
-11. Access different services:
-
-    * Prefect UI: `http://localhost:30420` 
-    * MLflow UI: `http://localhost:30500` 
-    * Grafana: `http://localhost:30000` 
-    * Adminer: `http://localhost:30081` 
-    * Fast API model serving: `http://localhost:30080`
-   
 
 ## 📜 License
 This project is licensed under the MIT License.

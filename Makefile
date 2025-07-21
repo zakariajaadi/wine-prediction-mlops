@@ -33,7 +33,7 @@ model-serving:
 	kubectl apply -f k8s/model
 
 
-# Deploy all pipelines in prefect server ( important! : app profile docker compose must be up)
+# Deploy all pipelines in prefect server
 deploy-all-flows:
 	python src/main.py
 

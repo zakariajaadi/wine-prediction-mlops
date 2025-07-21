@@ -45,9 +45,9 @@ def pre_processing(conf:AppConfig,raw_data_df):
         return train_x, test_x, train_y, test_y
 
     except IOError as e:
-        print(f"Error during file operation during preprocessing: {e}")
+        logger.exception(f"Error during file operation during preprocessing: {e}")
     except Exception as e:
-        print(f"Unexpected error during preprocessing: {e}")
+        logger.exception(f"Unexpected error during preprocessing: {e}")
 
 
 

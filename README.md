@@ -8,11 +8,11 @@ This end-to-end project serves as a blueprint for deploying ML models following 
 For this demonstration, I use a wine quality prediction model, specifically an Elastic Net regression, to predict wine quality based on its chemical composition (e.g., acidity, sugar, pH). (More info on this below)
 
 The project spans the entire ML lifecycle from data extraction to model deployment, and monitoring and covers major aspects of MLOps, including :
-* Pipeline automation and orchestration via Prefect
-* Experiment tracking and model versioning via Mlflow
+* Pipeline automation and orchestration via _Prefect_
+* Experiment tracking and model versioning via _Mlflow_
 * Automated deployment and monitoring.
-* Reproducible deployments and seamless scaling via Docker and Kubernetes
-* Real-time visualization and alerting of drift metrics via Deepchecks and Grafana
+* Reproducible deployments and efficient scaling via _Docker_ and _Kubernetes_
+* Real-time visualization and alerting of drift metrics via _Deepchecks_ and _Grafana_
 
 ## 🚀 Demo video 
 Watch this brief demo video to see the complete process, from data preparation all the way through to model deployment and monitoring.
@@ -21,13 +21,13 @@ https://github.com/user-attachments/assets/c9bf8485-51b6-4fe6-8346-04702c296454
 
 
 ## 📦 Key Tools
-* **🐳☸️ Docker & Kubernetes :** The entire project is containerized using Docker, and Kubernetes is used for multi-container deployments and orchestration. This includes services for _MLflow_, _Prefect_, _MinIO_, _Postgres_, and _Grafana_.  
+* **☸️ Docker & Kubernetes :** The entire project is containerized using Docker, and Kubernetes is used for multi-container deployments and orchestration. This includes services for _MLflow_, _Prefect_, _MinIO_, _Postgres_, and _Grafana_.  
+
+* **⛓️ Prefect**: Used to orchestrate the project pipelines.
 
 * **📊 MLflow**: Used to track training experiments for easy comparison and model selection, and also to help version and manage models to streamline deployment. 
 
-* **📦 MinIO**: Used as a S3-compatible object storage solution to save the pipeline's train data and MLflow artifacts.
-
-* **⛓️ Prefect**: Used to orchestrate the project pipelines.
+* **📦 MinIO**: Used as a S3-compatible object storage solution to save training data and MLflow artifacts.
 
 * **🎯 Hyperopt**: Used for hyperparameters tuning to explore exclusively promising regions.  
 
@@ -35,15 +35,15 @@ https://github.com/user-attachments/assets/c9bf8485-51b6-4fe6-8346-04702c296454
 
 * **🐘 PostgreSQL**: Hosts the backend databases for MLflow, Prefect, and monitoring.
 
-* **🖥️ Adminer**: Adminer provided a light-weight front-end to manage and monitor the PostgreSQL database.
+* **🖥️ Adminer**: Used as light-weight front-end to manage the PostgreSQL database.
 
-* **🧪 Deepchecks**: Used to calculate both Features and Prediction drift  
+* **🧪 Deepchecks**: Used to calculate both Features and Prediction drift. 
 
-* **📈 Grafana**: Used to visualize drift scores and to provide alerts for drift detection, enabling real-time insights into deployed model health.  
+* **📈 Grafana**: Used to visualize drift scores and to provide alerts for drift detection.
 
-* **⚙️ OmegaConf**: Used to manage configurations through structured YAML with runtime parameter injection
+* **⚙️ OmegaConf**: Used to manage configurations through structured YAML with runtime parameter injection.
 
-* **📦 Poetry**: Used to manage Python dependencies and virtual environments, for reproducible and consistent development.  
+* **📦 Poetry**: Used to manage Python dependencies and virtual environments.  
 
 ## 📊  Dataset
 
@@ -119,7 +119,7 @@ The model is built using **ElasticNet** regression, a linear regression techniqu
 
    Access the prefect UI (`http://localhost:30420`), navigate to Deployments, to `wine_quality_ml_pipeline_production` and trigger a flow Run. 
 
-## 🍽️ Model Serving
+## 💁‍♀️ Model Serving
 
 1. Serve model:
    ```bash

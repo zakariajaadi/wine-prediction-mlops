@@ -8,10 +8,11 @@ This end-to-end project serves as a blueprint for deploying ML models following 
 For this demonstration, I use a wine quality prediction model, specifically an Elastic Net regression, to predict wine quality based on its chemical composition (e.g., acidity, sugar, pH). (More info on this below)
 
 The project spans the entire ML lifecycle from data extraction to model deployment, and monitoring and covers major aspects of MLOps, including :
-* Pipeline automation and orchestration.
-* Experiment tracking and model versioning.
-* Automated deployment and monitoring. 
-* Horizontal Scaling
+* Pipeline automation and orchestration via Prefect
+* Experiment tracking and model versioning via Mlflow
+* Automated deployment and monitoring.
+* Reproducible deployments and seamless scaling via Docker and Kubernetes
+* Real-time visualization and alerting of drift metrics via Deepchecks and Grafana
 
 ## 🚀 Demo video 
 Watch this brief demo video to see the complete process, from data preparation all the way through to model deployment and monitoring.
@@ -24,9 +25,9 @@ https://github.com/user-attachments/assets/c9bf8485-51b6-4fe6-8346-04702c296454
 
 * **📊 MLflow**: Used to track training experiments for easy comparison and model selection, and also to help version and manage models to streamline deployment. 
 
-* **📦 MinIO**: Used as a self-hosted, S3-compatible object storage solution to save the pipeline's train data and MLflow artifacts, providing cloud-like storage capabilities.
+* **📦 MinIO**: Used as a self-hosted, S3-compatible object storage solution to save the pipeline's train data and MLflow artifacts.
 
-* **⛓️ Prefect**: Used to orchestrate the ML pipeline by managing tasks, scheduling, and monitoring. (Two flows were implemented: one for model training and automatic deployment, and another for model monitoring.)
+* **⛓️ Prefect**: Used to orchestrate the project pipelines by managing tasks, scheduling, and monitoring. 
 
 * **🎯 Hyperopt**: Used for hyperparameters tuning to explore exclusively promising regions.  
 
@@ -36,11 +37,11 @@ https://github.com/user-attachments/assets/c9bf8485-51b6-4fe6-8346-04702c296454
 
 * **🚀 FastAPI**: Used to serve trained models and handle prediction requests in real-time.  
 
-* **⚙️ OmegaConf**: Used to manage configurations, enabling dynamic parameterization across different environments (dev, prod).  
+* **⚙️ OmegaConf**: Used to manage configurations through structured YAML with runtime parameter injection
 
 * **📦 Poetry**: Used to manage project dependencies and virtual environments, for reproducible and consistent development.  
 
-* **🐘 PostgreSQL**: Housed both the MLflow backend database and the monitoring database.  
+* **🐘 PostgreSQL**: Hosts the backend databases for MLflow, Prefect, and monitoring.  
 
 * **🖥️ Adminer**: Adminer provided a light-weight front-end to manage and monitor the PostgreSQL database.  
 
@@ -113,7 +114,7 @@ The model is built using **ElasticNet** regression, a linear regression techniqu
    ```bash
    make deploy-all-flows # Deploys all Prefect flows to the Prefect server
    ```
-7. Run flows in prefect UI:
+7. Run the Training and Deployment flow in prefect UI:
 
    Access the prefect UI (`http://localhost:30420`), navigate to Deployments, to `wine_quality_ml_pipeline_production` and trigger a flow Run. 
 
@@ -122,7 +123,7 @@ The model is built using **ElasticNet** regression, a linear regression techniqu
    make deploy-model-api # Exposes the champion model via a FastAPI application.
    ```
    
-9. Check model health:
+9. Check model API health:
 
    Visit the model health endpoint in your browser or with curl:
 
@@ -133,9 +134,38 @@ The model is built using **ElasticNet** regression, a linear regression techniqu
    ```json
    {"status": "ok"}
    ```
+10. Test the model prediction with Postman
+
+    1. Open Postman and create a `POST` request to: `http://localhost:30080/predict`
+    2. In the request body, paste the sample payload below, and click Send.
+        ```json
+        {
+          "inputs": [
+            {
+              "fixed acidity": 7.4,
+              "volatile acidity": 0.7,
+              "citric acid": 0,
+              "residual sugar": 1.9,
+              "chlorides": 0.076,
+              "free sulfur dioxide": 11,
+              "total sulfur dioxide": 34,
+              "density": 0.9978,
+              "pH": 3.51,
+              "sulphates": 0.56,
+              "alcohol": 9.4
+            }
+          ]
+        }
+       
+    3. You should receive a JSON response like:
+        ```json
+               {
+                "predictions": [5.1]
+               }
+        ```
 
 
-10. Access the services:
+11. Access different services:
 
     * Prefect UI: `http://localhost:30420` 
     * MLflow UI: `http://localhost:30500` 

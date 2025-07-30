@@ -17,7 +17,7 @@ The project spans the entire ML lifecycle from data extraction to model deployme
 ## 🚀 Demo video 
 Watch this brief demo video to see the complete process, from data preparation all the way through to model deployment and monitoring.
 
-https://github.com/user-attachments/assets/c9bf8485-51b6-4fe6-8346-04702c296454
+https://github.com/user-attachments/assets/3dd426ff-dc83-41d2-8d0a-87cf70d43122
 
 
 ## 📦 Key Tools
